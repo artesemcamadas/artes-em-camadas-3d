@@ -1,0 +1,14 @@
+ATUALIZAÇÃO: GALERIA DE FOTOS COM SETAS
+
+1. Envie o index.html para a raiz do repositório, substituindo o atual.
+2. Mantenha o produtos.js e todas as imagens existentes.
+3. Para adicionar várias fotos a um produto, edite seu cadastro em produtos.js:
+
+   fotos: ["imagens/mini-jesus.jpg", "imagens/mini-jesus-2.jpg", "imagens/mini-jesus-3.jpg"],
+
+   Se o produto já tiver a propriedade foto, você pode substituí-la por fotos.
+   Produtos com apenas foto continuam funcionando normalmente.
+4. Envie as novas imagens para a pasta imagens e confirme as alterações no GitHub.
+
+As setas aparecem somente quando o produto tem 2 ou mais fotos.
+O banner, preços e carrinho não foram modificados.

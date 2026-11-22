@@ -50,6 +50,15 @@ header{background:#fff;box-shadow:0 3px 22px rgba(69,35,88,.075);border-bottom:1
 @media(max-width:750px){.head{min-height:74px;gap:10px}.head nav{display:flex;gap:0}.head nav a{font-size:12px;padding:8px}.brand{font-size:19px}.cart-btn{font-size:12px;padding:11px 12px}}
 @media(max-width:620px){.head{flex-wrap:wrap;justify-content:space-between;row-gap:7px}.head nav{order:3;flex:0 0 100%;justify-content:center;border-top:1px solid #f5eaf8;padding-top:6px}.head nav a{padding:8px 13px}.brand{font-size:20px}.cart-btn{font-size:12px}}
 @media(max-width:370px){.brand{font-size:17px}.cart-btn{padding:9px 10px;font-size:11px}}
+
+/* Galeria de imagens dos produtos */
+.visual{isolation:isolate}
+.visual .gallery-image{width:100%;height:100%;object-fit:contain;object-position:center}
+.gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:36px;height:36px;padding:0;border-radius:50%;background:rgba(112,68,154,.92);color:#fff;display:grid;place-items:center;font-size:25px;line-height:1;box-shadow:0 2px 9px #34233d33}
+.gallery-arrow.prev{left:9px}.gallery-arrow.next{right:9px}
+.gallery-arrow:focus-visible{outline:3px solid #f19acb;outline-offset:2px}
+.gallery-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:2;background:#ffffffd9;border-radius:20px;padding:5px 8px}
+.gallery-dot{width:7px;height:7px;border-radius:50%;background:#c9b6d7}.gallery-dot.active{background:#70449a}
 </style></head><body>
 <header><div class="wrap head"><a href="#inicio" class="brand">Artes em Camadas <span>3D</span></a><nav><a href="#inicio">Início</a><a href="#produtos">Produtos</a><a href="#contato">Contato</a></nav><button class="cart-btn" id="openCart">🛒 Carrinho (<span id="count">0</span>)</button></div></header>
 <main><div class="hero-banner" id="inicio"><img src="imagens/banner-principal.png" alt="Artes em Camadas 3D: decoração, presentes, lembranças e personalizados, com impressora 3D produzindo uma árvore de Natal" width="1792" height="1024"><a class="banner-link" href="#produtos" aria-label="Conhecer produtos"></a></div><section id="produtos"><div class="wrap"><h2>Nossos produtos</h2><p class="sub">Escolha uma categoria e adicione seus favoritos ao carrinho.</p><div class="filters" id="filters"></div><div class="grid" id="grid"></div><p class="notice">Produtos sem preço cadastrado ficam disponíveis apenas para consulta. Disponibilidade, entrega e pagamento são confirmados pelo WhatsApp.</p></div></section></main>
@@ -62,7 +71,32 @@ try{const saved=JSON.parse(localStorage.getItem('artes3d-carrinho')||'{}');if(sa
 const money=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const el=id=>document.getElementById(id);
 function node(tag,cls,txt){const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n}
-function render(){el('filters').replaceChildren();['Todos',...new Set(products.map(p=>p.categoria))].forEach(c=>{const b=node('button',selected===c?'active':'',c);b.type='button';b.addEventListener('click',()=>{selected=c;render()});el('filters').append(b)});el('grid').replaceChildren();products.filter(p=>selected==='Todos'||p.categoria===selected).forEach(p=>{const article=node('article','product'),visual=node('div','visual');if(p.foto){const img=node('img');img.src=p.foto;img.alt=p.nome;img.loading='lazy';img.onerror=()=>{visual.replaceChildren(document.createTextNode(p.icone||'🎁'))};visual.append(img)}else visual.textContent=p.icone||'🎁';const info=node('div','info');info.append(node('div','tag',p.categoria),node('h3','',p.nome),node('p','tag',p.descricao||''));const valid=typeof p.preco==='number'&&Number.isFinite(p.preco)&&p.preco>=0;info.append(node('div','price',valid?money(p.preco):'Consultar valor'));const b=node('button','',valid?'Adicionar ao carrinho':'Preço sob consulta');b.disabled=!valid;b.addEventListener('click',()=>add(p.id));info.append(b);article.append(visual,info);el('grid').append(article)})}
+function photosOf(p){
+  // Compatível com os cadastros antigos (foto) e novos (fotos).
+  const list=Array.isArray(p.fotos)?p.fotos.filter(x=>typeof x==='string'&&x.trim()):[];
+  if(!list.length&&typeof p.foto==='string'&&p.foto.trim())list.push(p.foto);
+  return [...new Set(list)];
+}
+function buildGallery(visual,p){
+  const photos=photosOf(p);
+  if(!photos.length){visual.textContent=p.icone||'🎁';return}
+  let index=0;
+  const img=node('img','gallery-image');img.alt='Foto 1 de '+photos.length+' — '+p.nome;img.loading='lazy';
+  const dots=node('div','gallery-dots');dots.setAttribute('aria-hidden','true');
+  function show(){img.src=photos[index];img.alt='Foto '+(index+1)+' de '+photos.length+' — '+p.nome;
+    if(photos.length>1){dots.replaceChildren();photos.forEach((_,i)=>dots.append(node('span','gallery-dot'+(i===index?' active':''))))}}
+  img.onerror=()=>{img.onerror=null;img.style.display='none';visual.append(node('span','',p.icone||'🎁'))};
+  visual.append(img);
+  if(photos.length>1){
+    const prev=node('button','gallery-arrow prev','‹'),next=node('button','gallery-arrow next','›');
+    prev.type=next.type='button';prev.setAttribute('aria-label','Foto anterior de '+p.nome);next.setAttribute('aria-label','Próxima foto de '+p.nome);
+    prev.onclick=e=>{e.stopPropagation();index=(index-1+photos.length)%photos.length;show()};
+    next.onclick=e=>{e.stopPropagation();index=(index+1)%photos.length;show()};
+    visual.append(prev,next,dots);
+  }
+  show();
+}
+function render(){el('filters').replaceChildren();['Todos',...new Set(products.map(p=>p.categoria))].forEach(c=>{const b=node('button',selected===c?'active':'',c);b.type='button';b.addEventListener('click',()=>{selected=c;render()});el('filters').append(b)});el('grid').replaceChildren();products.filter(p=>selected==='Todos'||p.categoria===selected).forEach(p=>{const article=node('article','product'),visual=node('div','visual');buildGallery(visual,p);const info=node('div','info');info.append(node('div','tag',p.categoria),node('h3','',p.nome),node('p','tag',p.descricao||''));const valid=typeof p.preco==='number'&&Number.isFinite(p.preco)&&p.preco>=0;info.append(node('div','price',valid?money(p.preco):'Consultar valor'));const b=node('button','',valid?'Adicionar ao carrinho':'Preço sob consulta');b.disabled=!valid;b.addEventListener('click',()=>add(p.id));info.append(b);article.append(visual,info);el('grid').append(article)})}
 function save(){try{localStorage.setItem('artes3d-carrinho',JSON.stringify(cart))}catch(e){}}
 function add(id){cart[id]=Math.min(99,(cart[id]||0)+1);renderCart();toggleCart(true)}
 function change(id,d){cart[id]=Math.max(0,Math.min(99,(cart[id]||0)+d));if(!cart[id])delete cart[id];renderCart()}
