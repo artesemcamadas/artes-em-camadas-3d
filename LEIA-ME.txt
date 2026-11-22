@@ -1,0 +1,39 @@
+ARTES EM CAMADAS 3D — PUBLICAÇÃO GRATUITA
+
+1. CONFIRA O WHATSAPP
+Abra produtos.js em um editor de texto e confira o número em whatsapp.
+Formato: 55 + DDD + número, apenas dígitos.
+
+2. CADASTRE PREÇOS
+Em produtos.js, substitua preco:null por preco:29.90 (exemplo).
+Não use R$ nem vírgula no campo preco.
+Até que o preço seja informado, o produto aparece como "Consultar valor" e não pode ser adicionado ao carrinho.
+
+3. ADICIONE FOTOS
+Coloque fotos JPG/PNG/WEBP na pasta imagens.
+No produto correspondente, altere foto:'' para foto:'imagens/mini-jesus.jpg'.
+Não use espaços ou acentos nos nomes dos arquivos.
+
+4. PUBLIQUE NO GITHUB PAGES
+- Crie uma conta em https://github.com
+- Crie um repositório PÚBLICO chamado artes-em-camadas-3d
+- Envie para a RAIZ do repositório os arquivos index.html, produtos.js e a pasta imagens (com suas fotos).
+  ATENÇÃO: não envie apenas o ZIP; extraia o conteúdo primeiro.
+- No repositório, abra Settings > Pages.
+- Em Build and deployment, selecione Deploy from a branch.
+- Escolha main e /(root), depois Save.
+- Aguarde a publicação. O endereço costuma ser:
+  https://SEU-USUARIO.github.io/artes-em-camadas-3d/
+
+5. ATUALIZAÇÕES
+Edite produtos.js no GitHub e salve com Commit changes.
+Envie novas fotos para a pasta imagens e atualize os caminhos no produtos.js.
+As mudanças publicadas podem levar alguns minutos para aparecer.
+
+OBSERVAÇÕES
+- Este site não processa pagamentos nem calcula frete.
+- O carrinho é salvo no navegador do cliente.
+- Não há painel administrativo: a edição inicial é feita no arquivo produtos.js.
+- O GitHub Pages hospeda sites estáticos gratuitamente em repositórios públicos, sujeito aos termos e limites do serviço.
+- Antes de divulgar o link, teste no celular e no computador, confira WhatsApp, preços, fotos e links.
+- Não coloque dados privados, senhas ou chaves de acesso nos arquivos públicos.
