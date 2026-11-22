@@ -1,1 +1,1 @@
-Envie index.html, favicon.png e favicon.ico para a RAIZ do repositório GitHub artes-em-camadas-3d. Não apague produtos.js nem a pasta imagens. Depois do Commit changes aguarde a publicação e atualize com Ctrl+F5.
+Envie index.html, favicon.png e favicon.ico para a raiz do repositorio GitHub artes-em-camadas-3d. Substitua os arquivos antigos. Nao altere produtos.js nem a pasta imagens. Aguarde o GitHub Pages atualizar e recarregue a pagina.
