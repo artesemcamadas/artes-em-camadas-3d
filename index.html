@@ -35,6 +35,21 @@ header{position:relative;top:auto;left:auto;right:auto;width:100%;z-index:20;bac
 .hero-banner img{display:block;width:100%;height:auto;object-fit:contain}
 .banner-link{position:absolute;left:9%;top:65%;width:38%;height:17%;z-index:1;border-radius:40px}
 .banner-link:focus-visible{outline:4px solid #70449a;outline-offset:-4px}
+
+/* Cabeçalho premium — somente apresentação, sem alterar funções */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap');
+header{background:#fff;box-shadow:0 3px 22px rgba(69,35,88,.075);border-bottom:1px solid #f2e6f3;position:relative;z-index:20}
+.head{min-height:84px;padding:15px 0;gap:24px}
+.brand{font-family:'Outfit','Arial',sans-serif;font-size:clamp(20px,2.1vw,27px);font-weight:800;letter-spacing:-.9px;line-height:1.1;background:linear-gradient(100deg,#63358c 12%,#9153af 62%,#d96da7 100%);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.brand span{color:#d86ca6;-webkit-text-fill-color:#d86ca6}
+.head nav{display:flex;align-items:center;gap:8px;font-family:'Manrope',Arial,sans-serif}
+.head nav a{font-size:14px;font-weight:700;letter-spacing:.1px;padding:12px 15px;border-radius:999px;transition:background .2s,color .2s;color:#54445d}
+.head nav a:hover,.head nav a:focus-visible{background:#f5eaf8;color:#753e9a}
+.cart-btn{font-family:'Manrope',Arial,sans-serif;font-size:13px;font-weight:800;letter-spacing:.1px;background:linear-gradient(115deg,#7441a0,#9251ad);border-radius:999px;padding:13px 20px;box-shadow:0 5px 14px rgba(112,68,154,.17);transition:transform .2s,box-shadow .2s}
+.cart-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(112,68,154,.22)}
+@media(max-width:750px){.head{min-height:74px;gap:10px}.head nav{display:flex;gap:0}.head nav a{font-size:12px;padding:8px}.brand{font-size:19px}.cart-btn{font-size:12px;padding:11px 12px}}
+@media(max-width:620px){.head{flex-wrap:wrap;justify-content:space-between;row-gap:7px}.head nav{order:3;flex:0 0 100%;justify-content:center;border-top:1px solid #f5eaf8;padding-top:6px}.head nav a{padding:8px 13px}.brand{font-size:20px}.cart-btn{font-size:12px}}
+@media(max-width:370px){.brand{font-size:17px}.cart-btn{padding:9px 10px;font-size:11px}}
 </style></head><body>
 <header><div class="wrap head"><a href="#inicio" class="brand">Artes em Camadas <span>3D</span></a><nav><a href="#inicio">Início</a><a href="#produtos">Produtos</a><a href="#contato">Contato</a></nav><button class="cart-btn" id="openCart">🛒 Carrinho (<span id="count">0</span>)</button></div></header>
 <main><div class="hero-banner" id="inicio"><img src="imagens/banner-principal.png" alt="Artes em Camadas 3D: decoração, presentes, lembranças e personalizados, com impressora 3D produzindo uma árvore de Natal" width="1792" height="1024"><a class="banner-link" href="#produtos" aria-label="Conhecer produtos"></a></div><section id="produtos"><div class="wrap"><h2>Nossos produtos</h2><p class="sub">Escolha uma categoria e adicione seus favoritos ao carrinho.</p><div class="filters" id="filters"></div><div class="grid" id="grid"></div><p class="notice">Produtos sem preço cadastrado ficam disponíveis apenas para consulta. Disponibilidade, entrega e pagamento são confirmados pelo WhatsApp.</p></div></section></main>
